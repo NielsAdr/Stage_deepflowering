@@ -3,8 +3,8 @@ import os
 
 ################ DEFINITION OF PATHS
 
-import_path = "/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/avec NA/concat"
-export_path = "/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/sans NA/concat"
+import_path = "/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/avec NA/non concat/equilibres"
+export_path = "/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/sans NA/non concat/equilibres"
 
 
 ############### FONCTION
