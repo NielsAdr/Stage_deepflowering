@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import os
 
-os.chdir("/home/u108-s786/github/Stage")
-from utils import adj_asd
+#os.chdir("/home/u108-s786/github/Stage")
+#from utils import adj_asd
 
 os.chdir("/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/sans NA/concat/X_Y")
 
