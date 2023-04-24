@@ -1,10 +1,10 @@
 ########### IMPORTATION DES PACKAGES
 
 import os 
-import pandas as pd
-import tifffile as tiff
 import warnings
 import datetime
+import pandas as pd
+import tifffile as tiff
 from Data_visualisation import sorting_exportation
 import patch_to_array
 
