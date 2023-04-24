@@ -5,7 +5,7 @@ import pandas as pd
 import tifffile as tiff
 import warnings
 import datetime
-import sorting_exportation
+from Data_visualisation import sorting_exportation
 import patch_to_array
 
 ########### SELECTION DES PARAMETRES
