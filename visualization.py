@@ -4,10 +4,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-os.chdir("/home/u108-s786/github/Stage")
-
-from patch_to_array import patch_to_array
+import patch_to_array
 
 ########### IMPORTATION DES DONNÉES
 

@@ -5,12 +5,8 @@ import pandas as pd
 import tifffile as tiff
 import warnings
 import datetime
-
-os.chdir("/home/u108-s786/github/Stage")
-
-from tri_export import filter_data_to_export, combine_trees_RGB_days, generate_tab_index
-from patch_to_array import patch_to_array
-
+import sorting_exportation
+import patch_to_array
 
 ########### SELECTION DES PARAMETRES
 

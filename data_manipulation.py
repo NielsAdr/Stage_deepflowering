@@ -6,10 +6,7 @@ import numpy as np
 from osgeo import gdal
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
-
-os.chdir("/home/u108-s786/github/Stage")
-
-from patch_to_array import patch_to_array
+import patch_to_array
 
 ########### IMPORTATION DES DONNÉES DE FLORAISON
 
