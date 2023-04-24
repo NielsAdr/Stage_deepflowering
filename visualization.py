@@ -7,7 +7,7 @@ import seaborn as sns
 
 os.chdir("/home/u108-s786/github/Stage")
 
-from patch_df import patch_to_array
+from patch_to_array import patch_to_array
 
 ########### IMPORTATION DES DONNÉES
 
@@ -17,7 +17,7 @@ os.chdir("/media/u108-s786/Donnees/FruitFlowDrone/data")
 data = pd.read_csv("trees_cluster.csv")
 data = data.rename(columns={data.columns[0]: 'id'})
 
-type_data='rgb'
+type_data='ms'
 data_rgb = patch_to_array(data,type_data,path_patch)
 
 ########### FONCTION DE VISUALISATION TEMPORELLE D'UN ARBRE 
@@ -97,3 +97,43 @@ plt.xticks(fontsize=15)
 plt.yticks(color='w')
 plt.legend([])
 plt.show()
+
+# Visualisation de la répartition du jour de floraison en fonction de l'année
+
+corresp = pd.read_csv('/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/corresp_2021_2022')
+
+# Sélectionner les colonnes qui contiennent les dates de floraison des deux années
+floraison_2021 = corresp['jourF_2021']
+floraison_2022 = corresp['jourF_2022']
+print("En 2021, la date moyenne de floraison est : ",floraison_2021.mean(),"et l'écart-type est : ",floraison_2021.std())
+print("En 2022, la date moyenne de floraison est : ",floraison_2022.mean(),"et l'écart-type est : ",floraison_2022.std())
+
+# Créer un histogramme côte à côte pour chaque année
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+ax[0].hist(floraison_2021, bins=20, color='blue', alpha=0.5)
+ax[1].hist(floraison_2022, bins=20, color='red', alpha=0.5)
+
+# Ajouter des titres et des légendes
+ax[0].set_title('Dates de floraison en 2021')
+ax[1].set_title('Dates de floraison en 2022')
+ax[0].set_xlabel('Jours')
+ax[1].set_xlabel('Jours')
+ax[0].set_ylabel('Nombre d\'arbres')
+ax[1].set_ylabel('Nombre d\'arbres')
+plt.show()
+
+# En boxplot
+sns.boxplot(data=[floraison_2021, floraison_2022])
+plt.xticks(ticks=[0, 1], labels=['2021', '2022'])
+plt.xlabel('Année')
+plt.ylabel('Jour de floraison')
+plt.show()
+
+# Test statistique, savoir si l'année est significative
+
+from scipy.stats import f_oneway
+
+resultat_anova = f_oneway(floraison_2021, floraison_2022)
+
+print("Statistique F :", resultat_anova.statistic)
+print("p-value :", resultat_anova.pvalue)

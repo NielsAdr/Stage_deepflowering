@@ -46,7 +46,7 @@ def patch_to_array(data, capteur, path):
                     del image_ms
                 
                 else : 
-                    print("capteur inconnue")
+                    print("capteur inconnu")
                     break
              
             split.append(img.copy())
