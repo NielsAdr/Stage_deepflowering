@@ -302,6 +302,6 @@ def feature_importance(X, y , n_components, n_transposition, len_split, seed = 4
     return(rmse_scores)
 
 
-n_components = compute_pinard(X1, y)
+n_components = compute_pinard(X, y)
 
-importance = feature_importance(X1, y, n_components, n_transposition=10, len_split=80)
+importance = feature_importance(X, y, n_components, n_transposition=10, len_split=2151)
