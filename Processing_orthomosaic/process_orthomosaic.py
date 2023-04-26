@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 
 
+
+
 def orthomosaic_to_patch(orthomosaic:gdal.Dataset, metadata:pd.DataFrame, resolution_patch:int):
     """
     Create patch from orthomosaic
