@@ -10,19 +10,26 @@ import pandas as pd
 metadata = pd.read_csv(constants.PATH_CSV)[["northing", "easting", "id_tree"]]
 
 #For each cameras and each month, compute patch from orthomosaics
-for camera in ["DEM"]:
+for camera in ["ms","rgb"]:
+    if camera == "rgb":
+        resolution = 300
+    if camera == "ms":
+        resolution = 200
     for month in ["juin", "septembre", "octobre", "novembre"]:
-        
         end_path =  "/" + camera + "/" + month
         
-        ds = gdal.Open(constants.PATH_FOLDER_ORTHOMOSAIC + end_path)
-        patch = orthomosaic_to_patch(metadata, ds)
-
-        del ds
+        directory = constants.PATH_FOLDER_ORTHOMOSAIC + end_path
         
-        os.chdir(constants.PATH_PATCH + end_path)
-        
-        for tree in range(len(metadata)):
-            np.save(f"{data.loc[tree].id_tree}", patch[][])
-
-        del patch
+        for file in os.listdir(directory):
+            ds = gdal.Open(os.path.join(directory, file))
+            
+            patch = process_orthomosaic.orthomosaic_to_patch(ds, metadata, resolution)
+    
+            del ds
+            
+            os.chdir(constants.PATH_PATCH + end_path)
+            
+            for tree in range(len(metadata)):
+                np.save(f"{metadata.loc[tree].id_tree}.npy", patch)
+    
+            del patch

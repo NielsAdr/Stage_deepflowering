@@ -26,7 +26,7 @@ def orthomosaic_to_patch(orthomosaic:gdal.Dataset, metadata:pd.DataFrame, resolu
     metadata = Lambert_to_npy_coordinates(orthomosaic, metadata)
     img = raster_to_img(orthomosaic)
     
-    patch_array = np.array([make_one_patch(metadata.loc[i], "pixel_x", "pixel_y", orthomosaic, resolution_patch) for i in range(metadata.shape[0])])
+    patch_array = np.array([make_one_patch(metadata.loc[i], "pixel_x", "pixel_y", img, resolution_patch) for i in range(metadata.shape[0])])
     
     return patch_array
 
@@ -75,7 +75,7 @@ def raster_to_img(orthomosaic:gdal.Dataset):
     return np.dstack(raster)
 
 
-def make_one_patch(data:pd.DataFrame, col_x, col_y, length:int):  
+def make_one_patch(data:pd.DataFrame, col_x, col_y,image , length:int):  
     """
     Create a square patch from trees center coordinates.
 

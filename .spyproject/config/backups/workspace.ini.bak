@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['requirement.txt', 'PLS.py', 'canal_selection.py', 'patch_to_array.py']
+recent_files = ['Processing_orthomosaic/process_orthomosaic.py', 'Processing_orthomosaic/main.py', 'Processing_orthomosaic/constants.py', 'PLS.py']
 
 [main]
 version = 0.2.0
