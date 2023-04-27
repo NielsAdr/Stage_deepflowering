@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy.signal import gaussian
 from scipy.stats import linregress
-import patch_to_array
+from patch_to_array import patch_to_array
 
 
 def gaussian_spectrum(spectrum, wavelength, fwhm =10):
