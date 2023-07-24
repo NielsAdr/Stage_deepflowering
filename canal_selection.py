@@ -412,7 +412,7 @@ def select_canal_or_index(array,selection = "NDVI"):
 ##############################################################################
 
 
-os.chdir("/media/u108-s786/Donnees/NIRS data D1-D7/csv_x_y_cnn/2022")
+os.chdir("/media/u108-s786/Donnees/Stage_Niels/NIRS/csv_x_y_cnn/2022")
 X = pd.read_csv("non concat/X1.csv")
 canals = {"RE","R","NIR","B","G","GE"}
 
@@ -426,7 +426,7 @@ average_NIRS_value = average_NIRS_value[["B","G","GE","R","RE","NIR"]]
 ##############################################################################
 
 ########### IMPORTATION DES DONNÉES DE DRONE
-path_patch = "/media/u108-s786/Donnees/FruitFlowDrone/data/Patch"
+path_patch = "/media/u108-s786/Donnees/Stage_Niels/Drone/data/Patch/"
 data_2022 = pd.read_csv("data_2022.csv")
 type_data='ms'
 
@@ -434,9 +434,9 @@ data_2022_ms = patch_to_array(data_2022,type_data,path_patch)
 
 
 juin = data_2022_ms[0,:,:,:,:]
-septembre = data_2022_ms[1,:,:,:,:]
+septembre = data_2022_ms[3,:,:,:,:]
 octobre = data_2022_ms[2,:,:,:,:]
-novembre = data_2022_ms[3,:,:,:]
+novembre = data_2022_ms[1,:,:,:]
 
 # On prend les canaux de juin
 NIR_juin = select_canal_or_index(juin,"NIR")

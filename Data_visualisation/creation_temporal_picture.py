@@ -3,10 +3,12 @@
 import os 
 import warnings
 import datetime
+import tqdm
+import numpy as np
 import pandas as pd
 import tifffile as tiff
 from Data_visualisation import sorting_exportation
-import patch_to_array
+from patch_to_array import patch_to_array
 
 ########### SELECTION DES PARAMETRES
 
@@ -17,11 +19,13 @@ tail = 4 # Choisir le nombre d'arbres qui sont au maximum du paramètre choisi p
 
 ########### IMPORTATION DES DONNÉES
 
-path_patch = "/media/u108-s786/Donnees/FruitFlowDrone/data/Patch"
-os.chdir("/media/u108-s786/Donnees/FruitFlowDrone/data")
+path_patch = "/media/u108-s786/Donnees/Stage_Niels/Drone/data/Patch"
+os.chdir("/media/u108-s786/Donnees/Stage_Niels/Drone/data")
 
 data = pd.read_csv("trees_cluster.csv")
 data = data.rename(columns={data.columns[0]: 'id'})
+data = data.rename(columns={'arbre': 'pos'})
+
 data_rgb = patch_to_array(data,type_data,path_patch)
 
 # 0 = juin, 1 = novembre, 2 = octobre, 3 = septembre ==> 0,3,2,1
@@ -77,7 +81,6 @@ df_info_array = df_info_array.sort_values(by=['std','jourF','genot'])
 tab_index = generate_tab_index(nombre_geno,4) #Le premier indice est le nombre de génotypes, le 2e est le nombre d'arbres dans le génotype
 combine = combine_trees_RGB_days(tab_index,df_info_array) #On combine le tout en un array pour pouvoir l'exporter en tiff
 
-
 ########### ENREGISTREMENT DE L'IMAGE
 
 # On rédige nos métadata et on transpose pour le MS pour ImageJ
@@ -97,3 +100,38 @@ heure = now.strftime("%Y-%m-%d_%H-%M-%S")
 
 # On sauvegarde notre image
 tiff.imwrite('concatenation_'+type_data+'_deltaJF_'+tri+'_'+str(nombre_geno)+f'_arbres_{heure}',combine)
+
+########### CRÉATION D'IMAGES TEMPORELLES VERTICALES NDVI ET RGB POUR CHAQUE ARBRE, ON ENREGISTRE PAR RANG_N°_POS_N°.TIFF
+
+data_rgb = patch_to_array(data,"rgb",path_patch)
+data_ms = patch_to_array(data,"ms",path_patch)
+
+# Index des mois dans l'ordre souhaité : 'juin', 'septembre', 'octobre', 'novembre'
+order = [0, 3, 2, 1]
+
+# Réorganisation du tableau data_rgb
+data_rgb_ordered = data_rgb[order]
+data_ms_ordered = data_ms[order]
+
+rgb_path =  "/media/u108-s786/Donnees/Stage_Niels/Drone/data/temporal_patchs/rgb/"
+ndvi_path = "/media/u108-s786/Donnees/Stage_Niels/Drone/data/temporal_patchs/ndvi/"
+
+dates = data_ms.shape[0]
+
+
+for i in tqdm.trange(data_ms.shape[1]):
+    rgb = np.zeros(([300*dates,300,3])).astype(np.uint8)
+    ndvi = np.zeros(([200*dates,200])).astype(np.float16)
+    for j in range (dates):
+        ## On attribue l'image RGB
+        rgb[j*300:(j+1)*300,:,:] = data_rgb_ordered[j,i,:,:,:]
+        
+        ## On prend les canaux NIR et RED en float pour éviter les erreurs
+        NIR = data_ms_ordered[j,i,:,:,5].astype(np.float16)
+        RED = data_ms_ordered[j,i,:,:,3].astype(np.float16)
+        
+        ## On attribue l'image NDVI
+        ndvi[j*200:(j+1)*200,:] = (NIR-RED)/(NIR+RED)
+    tiff.imwrite(rgb_path+"rgb_rang_"+str(data.loc[i,'rang'])+"_pos_"+str(data.loc[i,'pos'])+".tiff",rgb)
+    tiff.imwrite(ndvi_path+"ndvi_rang_"+str(data.loc[i,'rang'])+"_pos_"+str(data.loc[i,'pos'])+".tiff",ndvi)
+    
